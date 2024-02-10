@@ -10,6 +10,7 @@ const TaskCollect = () => {
 
     const [totalTasks, setTotalTasks] = useState(0);
     const [completedTaskCount, setCompletedTaskCount] = useState(0);
+    const [filterPriority, setFilterPriority] = useState("All");
 
     useEffect(() => {
         const fetchData = async () => {
@@ -42,13 +43,13 @@ const TaskCollect = () => {
     const getPriorityColorClass = (priority) => {
         switch (priority) {
             case "High":
-                return "bg-red-500";
+                return "bg-pink-300";
             case "Medium":
                 return "bg-yellow-300";
             case "Low":
-                return "bg-green-300";
+                return "bg-emerald-300";
             default:
-                return ""; // default color or empty string
+                return "";
         }
     };
 
@@ -120,6 +121,10 @@ const TaskCollect = () => {
         );
     };
 
+    const filteredTasks = filterPriority === "All"
+        ? tasks
+        : tasks.filter(task => task.taskPriority === filterPriority);
+
     return (
         <div className="container mx-auto my-10">
             <div className="text-center mb-8">
@@ -129,9 +134,22 @@ const TaskCollect = () => {
                 <h2 className="text-2xl text-green-600 font-bold mb-4 font-mono">
                     Completed Tasks: {completedTaskCount}
                 </h2>
+                <label className="text-3xl text-emerald-600 font-mono">
+                    Filter by Priority:
+                    <select
+                        className="form-select ml-2"
+                        value={filterPriority}
+                        onChange={(e) => setFilterPriority(e.target.value)}
+                    >
+                        <option value="All">All</option>
+                        <option value="High">High</option>
+                        <option value="Medium">Medium</option>
+                        <option value="Low">Low</option>
+                    </select>
+                </label>
             </div>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-                {tasks.map((task) => (
+                {filteredTasks.map((task) => (
                     <div
                         key={task._id}
                         className={`max-w-md mx-auto bg-white rounded-xl overflow-hidden shadow-lg p-6 mb-6 relative ${getPriorityColorClass(task.taskPriority)}`}

@@ -11,9 +11,9 @@ const TaskForm = () => {
     const [deadline, setDeadline] = useState(new Date());
 
     const priorityColors = {
-        Low: 'bg-green-300',
+        Low: 'bg-emerald-300',
         Medium: 'bg-yellow-300',
-        High: 'bg-red-300',
+        High: 'bg-pink-300',
     };
 
     useEffect(() => {
